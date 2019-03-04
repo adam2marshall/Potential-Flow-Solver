@@ -1,16 +1,16 @@
-# Source Panel Method
+## Source Panel Method
 
 
-#Import Required Libraries
+## Import Required Libraries
 import math
 import numpy as np
 from matplotlib import pyplot
 from scipy import integrate
 from scipy import linalg
 
-#Import Geometry
-BASE_FOLDER = 'C:\\Path\\'
-BASE_NAME = 'file_name'
+## Import Geometry
+BASE_FOLDER = 'C:\\Path\\' #path to geometry txt file
+BASE_NAME = 'file_name'    #nmae of txt file for geometry
 fname = BASE_FOLDER + BASE_NAME
 
 x, y = np.loadtxt(fname, unpack=True)
