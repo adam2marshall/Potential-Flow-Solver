@@ -1,4 +1,4 @@
-## Source Panel Method
+## Python Source Panel Method
 
 
 ## Import Required Libraries
@@ -10,10 +10,25 @@ from scipy import linalg
 
 ## Import Geometry
 BASE_FOLDER = 'C:\\Path\\' #path to geometry txt file
-BASE_NAME = 'file_name'    #nmae of txt file for geometry
+BASE_NAME = 'file_name'    #nmae of geometry txt file
 fname = BASE_FOLDER + BASE_NAME
 
 x, y = np.loadtxt(fname, unpack=True)
 
 pyplot.plot(x, y)
-pyplot.show()
+
+#Create Panels
+class Panel:
+    """docstring fs Panel."""
+    def __init__(self, x1, x2, y1, y2):
+        self.x1 = x1 #x1,y1 are coordinates of front end of panel
+        self.x2 = x2 #x2, y2 are coordinates of rear end of panel
+        self.y1 = y1
+        self.y2 = y2
+
+        self.xcp, self.ycp = (x1 + x2)/2 , (y1+y2)/2 # Control Point of panel
+        self.l = math.sqrt((x2 - x1)**2 + (y2 - y1)**2) #Panel length
+
+        self.M = 0.0 #Source Strength
+        self.Vt = 0.0 #Tangential Velocity
+        self.Cp = 0.0 #Pressure Coefficent
