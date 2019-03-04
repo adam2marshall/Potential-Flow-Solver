@@ -7,4 +7,13 @@ import numpy as np
 from matplotlib import pyplot
 from scipy import integrate
 from scipy import linalg
-import os
+
+#Import Geometry
+BASE_FOLDER = 'C:\\Path\\'
+BASE_NAME = 'file_name'
+fname = BASE_FOLDER + BASE_NAME
+
+x, y = np.loadtxt(fname, unpack=True)
+
+pyplot.plot(x, y)
+pyplot.show()
