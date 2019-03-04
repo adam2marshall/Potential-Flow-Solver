@@ -1,0 +1,10 @@
+# Source Panel Method
+
+
+#Import Required Libraries
+import math
+import numpy as np
+from matplotlib import pyplot
+from scipy import integrate
+from scipy import linalg
+import os
