@@ -7,6 +7,7 @@ import numpy as np
 from matplotlib import pyplot
 from scipy import integrate
 from scipy import linalg
+from scipy import interpolate
 
 ## Import Geometry
 BASE_FOLDER = 'C:\\Path\\' #path to geometry txt file
@@ -14,8 +15,12 @@ BASE_NAME = 'file_name'    #nmae of geometry txt file
 fname = BASE_FOLDER + BASE_NAME
 
 x, y = np.loadtxt(fname, unpack=True)
-
-pyplot.plot(x, y)
+x_min = min(x)
+x_max = max(x)
+pyplot.figure(1)
+#pyplot.plot(x, y)
+pyplot.axis('scaled')
+#pyplot.show()
 
 #Create Panels
 class Panel:
@@ -26,9 +31,19 @@ class Panel:
         self.y1 = y1
         self.y2 = y2
 
-        self.xcp, self.ycp = (x1 + x2)/2 , (y1+y2)/2 # Control Point of panel
+        self.xctrl, self.yctrl = (x1 + x2)/2 , (y1+y2)/2 # Control Point of panel
         self.l = math.sqrt((x2 - x1)**2 + (y2 - y1)**2) #Panel length
 
         self.M = 0.0 #Source Strength
         self.Vt = 0.0 #Tangential Velocity
         self.Cp = 0.0 #Pressure Coefficent
+
+N = 50
+O_x = (((x_max) + (x_min)) / 2) # x coordinate of circle centre
+R = (((x_max) - (x_min)) / 2) # Radius of circle
+x_coords = (O_x + (R * np.cos(np.linspace(0, math.pi *2, N+1)))) #x coordinates of cricle and panels
+y_coords = np.empty_like(x_coords)
+
+while i <= (N+2):
+    y_coords = ((y[i+1] - y[i] / (x[i+1] - x[i]) )*(x_coords[i] - x[i]) + (y[i])
+    i = i + 1
