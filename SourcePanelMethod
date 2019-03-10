@@ -13,6 +13,7 @@ from scipy import interpolate
 BASE_FOLDER = 'C:\\Path\\' #path to geometry txt file
 BASE_NAME = 'file_name'    #nmae of geometry txt file
 fname = BASE_FOLDER + BASE_NAME
+N = 50 #number of panels
 
 x, y = np.loadtxt(fname, unpack=True)
 x_min = min(x)
@@ -24,26 +25,47 @@ pyplot.axis('scaled')
 
 #Create Panels
 class Panel:
-    """docstring fs Panel."""
-    def __init__(self, x1, x2, y1, y2):
-        self.x1 = x1 #x1,y1 are coordinates of front end of panel
-        self.x2 = x2 #x2, y2 are coordinates of rear end of panel
-        self.y1 = y1
-        self.y2 = y2
+    """Panel"""
 
-        self.xctrl, self.yctrl = (x1 + x2)/2 , (y1+y2)/2 # Control Point of panel
-        self.l = math.sqrt((x2 - x1)**2 + (y2 - y1)**2) #Panel length
+def __init_(self, x1, y1, x2, y2):
 
-        self.M = 0.0 #Source Strength
-        self.Vt = 0.0 #Tangential Velocity
-        self.Cp = 0.0 #Pressure Coefficent
+    self.x1 = x1
+    self.y1 = y1
+    self.x2 = x2
+    self.y2 = y2
 
-N = 50
-O_x = (((x_max) + (x_min)) / 2) # x coordinate of circle centre
-R = (((x_max) - (x_min)) / 2) # Radius of circle
-x_coords = (O_x + (R * np.cos(np.linspace(0, math.pi *2, N+1)))) #x coordinates of cricle and panels
-y_coords = np.empty_like(x_coords)
+    self.xctrl = (x1 + x2) / 2  # x coord of control point
+    self.yctrl = (y1 + y2) / 2  # y coord of control point
 
-while i <= (N+2):
-    y_coords = ((y[i+1] - y[i] / (x[i+1] - x[i]) )*(x_coords[i] - x[i]) + (y[i])
-    i = i + 1
+    self.l = math.sqrt((x2 - x1)**2 + (y2 - y1)**2)  # length of the panel
+
+    self.M = 0.0  # source strength
+    self.vt = 0.0  # tangential velocity
+    self.cp_stat = 0.0  # pressure coefficient
+
+    # Angle, beta, of panel relative to global x coordinate
+    self.beta = math.acos((x2 - x1)/(self.l))
+
+def panels(x, y, N):
+
+    O_x = (((x_max) + (x_min)) / 2) # x coordinate of circle centre
+    R = (((x_max) - (x_min)) / 2) # Radius of circle
+    x_coords = (O_x + (R * np.cos(np.linspace(0, math.pi *2, N+1)))) #x coordinates of cricle and panels
+    y_coords = np.empty_like(x_coords)
+
+    i = 0
+
+    while i < (N+2):
+        y_coords[i] = ((((y[i+1] - y[i]) / ((x[i+1] - x[i])) )*(x_coords[i] - x[i])) + (y[i]))
+        i +=1
+        break
+
+    panels = np.empty(N, dtype=object)
+
+
+    while i < (N+2):
+        panels[i] = Panel(x_coords[i], y_coords[i], x_coords[i + 1], y_coords[i + 1])
+        i =+1
+
+
+    return Panels
